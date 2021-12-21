@@ -1,35 +1,31 @@
-import p5 from "p5";
-import { Circle } from "./Circle";
+import p5 from 'p5';
+import { Particle } from './Particle';
+import createCircle from './Circle';
 
-export type Particle = {
-  run: () => void
-  isDead: () => boolean
-}
+type SnowCollector = {
+  run: () => void;
+};
 
-export class SnowCollector {
-  private particles: Particle[];
-  private p: p5;
-  private maxParticle: number;
+const createSnowCollector = (p: p5, maxParticle: number): SnowCollector => {
+  let particles: Particle[] = new Array<Particle>();
 
-  constructor(p: p5, maxParticle: number) {
-    this.p = p;
-    this.particles = new Array<Particle>();
-    this.maxParticle = maxParticle;
-  }
-
-  addParticle = () => {
-    const vx = this.p.random(0, this.p.windowWidth);
-    const position = this.p.createVector(vx, -10);
-    this.p.random(0, 1000)
-    this.particles.push(new Circle(this.p, position));
+  const addParticle = (): void => {
+    const vx = p.random(0, p.windowWidth);
+    const position = p.createVector(vx, -10);
+    p.random(0, 1000);
+    particles.push(createCircle(p, position));
   };
 
-  run = () => {
-    if (this.particles.length > this.maxParticle) {
-      this.particles.shift()
+  const run = () => {
+    if (particles.length > maxParticle) {
+      particles.shift();
     }
-    this.addParticle();
-    this.particles = this.particles.filter((particle) => !particle.isDead());
-    this.particles.forEach((particle) => particle.run());
+    addParticle();
+    particles = particles.filter((particle) => !particle.isDead());
+    particles.forEach((particle) => particle.run());
   };
-}
+
+  return { run };
+};
+
+export default createSnowCollector;

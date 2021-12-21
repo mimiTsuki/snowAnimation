@@ -1,45 +1,38 @@
-import p5 from "p5";
-// @ts-ignore
-import Imgs from "../assets/*.svg";
-import { Particle } from "./SnowCollector";
+import p5 from 'p5';
+import snowImage from '../assets/snow.svg';
+import { Particle } from './Particle';
 
-export class Snow implements Particle {
-  private p: p5;
-  private velocity: p5.Vector;
-  private position: p5.Vector;
-  private lifespan: number;
-  private image: p5.Image;
+const createSnow = (p: p5, hoge: p5.Vector): Particle => {
+  const velocity = p.createVector(p.random(-1, 1), p.random(1.5, 0.5));
+  const position = hoge.copy();
+  let lifespan = 255;
+  const image = p.loadImage(snowImage);
+  image.resize(100, 100);
 
-  constructor(p: p5, position: p5.Vector) {
-    this.p = p;
-    this.velocity = p.createVector(p.random(-1, 1), p.random(1.5, 0.5));
-    this.position = position.copy();
-    this.lifespan = 255;
-    this.image = p.loadImage(Imgs["snow"]);
-    this.image.resize(100, 100);
-  }
-
-  run = () => {
-    this.update();
-    this.display();
+  const update = () => {
+    position.add(velocity);
+    lifespan -= 0.4;
   };
 
-  private update = () => {
-    this.position.add(this.velocity);
-    this.lifespan -= 0.4;
+  const display = () => {
+    p.image(image, 100, 100);
   };
 
-  private display = () => {
-    this.p.image(this.image, 100, 100);
-  };
+  const isInArea = () => {
+    const inAreaWidth = position.x > 0 && position.x < p.windowWidth;
+    const inAreaHeight = position.y < p.windowHeight;
 
-  isDead = () => this.lifespan < 0 || !this.isInArea();
-
-  private isInArea = () => {
-    const inAreaWidth =
-      this.position.x > 0 && this.position.x < this.p.windowWidth;
-    const inAreaHeight = this.position.y < this.p.windowHeight;
     return inAreaWidth && inAreaHeight;
   };
 
-}
+  const run = () => {
+    update();
+    display();
+  };
+
+  const isDead = () => lifespan < 0 || !isInArea();
+
+  return { run, isDead };
+};
+
+export default createSnow;
