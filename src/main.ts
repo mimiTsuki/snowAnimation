@@ -1,10 +1,9 @@
 import p5 from 'p5';
-// import { Snow } from './Snow';
 import createSnowCollector from './SnowCollector';
+import './style.css';
 
 const sketch = (p: p5) => {
   const snowCollector = createSnowCollector(p, 1000);
-  // const snow = new Snow(p, p.createVector(100, 100));
 
   // eslint-disable-next-line no-param-reassign
   p.setup = () => {
@@ -14,8 +13,13 @@ const sketch = (p: p5) => {
   // eslint-disable-next-line no-param-reassign
   p.draw = () => {
     p.background(21, 21, 21);
+    // p.clear();
     snowCollector.run();
-    // snow.run()
+  };
+
+  // eslint-disable-next-line no-param-reassign
+  p.windowResized = () => {
+    p.resizeCanvas(p.windowWidth, p.windowHeight);
   };
 };
 

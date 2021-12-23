@@ -2,25 +2,26 @@ import p5 from 'p5';
 import snowImage from '../assets/snow.svg';
 import { Particle } from './Particle';
 
-const createSnow = (p: p5, hoge: p5.Vector): Particle => {
-  const velocity = p.createVector(p.random(-1, 1), p.random(1.5, 0.5));
-  const position = hoge.copy();
+const createSnow = (p: p5, position: p5.Vector): Particle => {
+  const velocity = p.createVector(0, p.random(1.5, 0.5));
+  const pos = position.copy();
   let lifespan = 255;
   const image = p.loadImage(snowImage);
-  image.resize(100, 100);
 
   const update = () => {
-    position.add(velocity);
+    pos.add(velocity);
     lifespan -= 0.4;
   };
 
   const display = () => {
-    p.image(image, 100, 100);
+    image.resize(100, 100);
+    p.tint(lifespan)
+    p.image(image, pos.x, pos.y);
   };
 
   const isInArea = () => {
-    const inAreaWidth = position.x > 0 && position.x < p.windowWidth;
-    const inAreaHeight = position.y < p.windowHeight;
+    const inAreaWidth = pos.x > 0 && pos.x < p.windowWidth;
+    const inAreaHeight = pos.y < p.windowHeight;
 
     return inAreaWidth && inAreaHeight;
   };
