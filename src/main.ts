@@ -12,8 +12,7 @@ const sketch = (p: p5) => {
 
   // eslint-disable-next-line no-param-reassign
   p.draw = () => {
-    p.background(21, 21, 21);
-    // p.clear();
+    p.clear();
     snowCollector.run();
   };
 
