@@ -15,7 +15,7 @@ const createSnow = (p: p5, position: p5.Vector): Particle => {
 
   const display = () => {
     p.tint(224, 246, 255, lifespan)
-    p.image(image, pos.x, pos.y, 100, 100);
+    p.image(image, pos.x, pos.y, 50, 50);
   };
 
   const isInArea = () => {

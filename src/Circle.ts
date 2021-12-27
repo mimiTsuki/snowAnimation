@@ -14,7 +14,7 @@ const createCircle = (p: p5, position: p5.Vector): Particle => {
 
   const display = () => {
     p.fill(225, 245, 254, lifespan);
-    p.ellipse(pos.x, pos.y, 12, 12);
+    p.ellipse(pos.x, pos.y, 6, 6);
   };
 
   const isInArea = () => {
